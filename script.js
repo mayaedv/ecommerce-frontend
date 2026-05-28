@@ -1947,6 +1947,27 @@ function limparFiltros() {
    FOOTER — Newsletter
    ================================================ */
 
+function iniciarCategoriasFooter() {
+  document.querySelectorAll("a[data-filtro]").forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      var termo = link.dataset.filtro;
+      var href = link.getAttribute("href");
+
+      termoBusca = termo;
+      abrirBusca();
+      var input = document.getElementById("c21-busca-input");
+      if (input) input.value = termo;
+      filtrarProdutos();
+
+      setTimeout(function () {
+        var secao = document.querySelector(href);
+        if (secao) secao.scrollIntoView({ behavior: "smooth" });
+      }, 120);
+    });
+  });
+}
+
 function iniciarFooter() {
   var btn = document.getElementById("c21-footer-nl-btn");
   var input = document.getElementById("c21-footer-nl-email");
@@ -1962,9 +1983,9 @@ function iniciarFooter() {
     if (ok) ok.textContent = "✓ Inscrito com sucesso!";
   }
 
-  btn.addEventListener("click", inscrever);
-  input.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") inscrever();
+  wrap.addEventListener("submit", function (e) {
+    e.preventDefault();
+    inscrever();
   });
 
   if (
@@ -1976,6 +1997,25 @@ function iniciarFooter() {
     wrap.style.display = "none";
     ok.textContent = "✓ Já inscrito.";
   }
+}
+
+/* ================================================
+   TEMA — Claro / Escuro
+   ================================================ */
+
+function iniciarTema() {
+  var btn = document.getElementById("c21-tema-btn");
+  if (!btn) return;
+
+  function aplicarTema(dark) {
+    document.body.classList.toggle("dark", dark);
+    btn.setAttribute("aria-label", dark ? "Modo claro" : "Modo escuro");
+    localStorage.setItem("c21-tema", dark ? "dark" : "light");
+  }
+
+  btn.addEventListener("click", function () {
+    aplicarTema(!document.body.classList.contains("dark"));
+  });
 }
 
 /* Impede que o browser restaure a posição de scroll ao recarregar */
@@ -1992,6 +2032,8 @@ criarSobreUI();
 criarBuscaUI();
 criarFiltrosUI();
 iniciarFooter();
+iniciarCategoriasFooter();
+iniciarTema();
 iniciarAnimacaoEntrada();
 
 /* Inicializa EmailJS uma única vez após o carregamento da página */

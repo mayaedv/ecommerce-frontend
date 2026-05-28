@@ -1,3 +1,25 @@
+:root {
+  --bg: #f5f0e8;
+  --bg-alt: #eee6d4;
+  --border: #d4c8b0;
+  --fg: #111111;
+  --fg-inv: #f5f0e8;
+  --text-2: #555555;
+  --text-3: #333333;
+  --text-4: #666666;
+}
+
+body.dark {
+  --bg: #1a1714;
+  --bg-alt: #252018;
+  --border: #3a3428;
+  --fg: #ede8e0;
+  --fg-inv: #1a1714;
+  --text-2: #9a9088;
+  --text-3: #c0b8b0;
+  --text-4: #8a8078;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,9 +28,10 @@
 
 body {
   font-family: poppins;
-  background-color: #f5f0e8;
-  color: #111111;
+  background-color: var(--bg);
+  color: var(--fg);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -25,9 +48,10 @@ header {
   position: sticky;
   top: 0;
   z-index: 200;
-  background-color: #f5f0e8;
-  border-bottom: 1px solid #d4c8b0;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
   justify-content: space-evenly;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 nav {
@@ -45,7 +69,7 @@ nav {
   font-size: 30px;
   font-weight: 900;
   letter-spacing: 0.1em;
-  color: #111111;
+  color: var(--fg);
   flex-shrink: 0;
 }
 
@@ -61,20 +85,20 @@ nav {
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 0.12em;
-  color: #555555;
+  color: var(--text-2);
   transition: color 0.2s;
   text-transform: uppercase;
 }
 
 .menu a:hover {
-  color: #111111;
+  color: var(--fg);
 }
 
 .hero {
   background-image: url(./imgs/hero.png);
   background-size: cover;
   background-position: center top;
-  border-bottom: 1px solid #d4c8b0;
+  border-bottom: 1px solid var(--border);
   padding: 80px 40px;
   display: flex;
   justify-content: space-between;
@@ -122,7 +146,8 @@ nav {
 
 .secao-produtos {
   padding: 64px 40px;
-  background-color: #f5f0e8;
+  background-color: var(--bg);
+  transition: background-color 0.3s ease;
 }
 
 .secao-header {
@@ -131,15 +156,16 @@ nav {
   justify-content: space-between;
   margin-top: 16px;
   margin-bottom: 60px;
-  border-bottom: 1px solid #d4c8b0;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 16px;
+  transition: border-color 0.3s ease;
 }
 
 .titulo-secao {
   font-size: 25px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: #111111;
+  color: var(--fg);
   text-transform: uppercase;
 }
 
@@ -147,12 +173,13 @@ nav {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  background-color: #eee6d4;
+  background-color: var(--bg-alt);
   justify-content: center;
+  transition: background-color 0.3s ease;
 }
 
 .card-produto {
-  background-color: #f5f0e8;
+  background-color: var(--bg);
   flex: 1 1 100px;
   max-width: 360px;
   padding: 1px 24px 16px 20px;
@@ -164,7 +191,7 @@ nav {
 }
 
 .card-produto:hover {
-  background-color: #eee6d4;
+  background-color: var(--bg-alt);
 }
 
 .card-produto img {
@@ -176,7 +203,7 @@ nav {
 .card-produto h3 {
   font-size: 20px;
   font-weight: 400;
-  color: #333333;
+  color: var(--text-3);
   text-align: center;
   line-height: 1.5;
   min-height: 34px;
@@ -185,14 +212,15 @@ nav {
 .card-produto .preco {
   font-size: 14px;
   font-weight: 700;
-  color: #111111;
+  color: var(--fg);
 }
 
 .divisor {
   height: 48px;
-  background-color: #eee6d4;
-  border-top: 1px solid #d4c9b0;
-  border-bottom: 1px solid #d4c9b0;
+  background-color: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 @media (max-width: 1024px) {
