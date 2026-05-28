@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Club 21</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="interactions.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <h1 class="logo">Club 21</h1>
+
+        <ul class="menu">
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#feminino">Feminino</a></li>
+          <li><a href="#masculino">Masculino</a></li>
+        </ul>
+      </nav>
+      <div class="c21-header-acoes">
+        <button
+          id="c21-search-btn"
+          class="c21-search-btn"
+          aria-label="Buscar produtos"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero" id="inicio">
+      <div class="hero-texto">
+        <p class="hero-label">Outono / Inverno</p>
+        <h2>NOVA COLEÇÃO <span>2026</span></h2>
+      </div>
+    </section>
+
+    <section class="secao-produtos" id="feminino">
+      <div class="secao-header">
+        <h2 class="titulo-secao">Feminino</h2>
+      </div>
+
+      <div id="grade-feminino" class="grade"></div>
+    </section>
+
+    <div class="divisor"></div>
+
+    <section class="secao-produtos" id="masculino">
+      <div class="secao-header">
+        <h2 class="titulo-secao">Masculino</h2>
+      </div>
+      <div id="grade-masculino" class="grade"></div>
+    </section>
+
+    <footer class="c21-footer">
+      <div class="c21-footer-main">
+        <div class="c21-footer-col c21-footer-col--brand">
+          <p class="c21-footer-logo">Club 21</p>
+          <p class="c21-footer-desc">
+            Essenciais modernos para quem vive com intenção.
+          </p>
+          <nav class="c21-footer-social">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener"
+              class="c21-footer-social-link"
+              >Instagram</a
+            >
+            <a
+              href="https://tiktok.com"
+              target="_blank"
+              rel="noopener"
+              class="c21-footer-social-link"
+              >TikTok</a
+            >
+            <a
+              href="https://pinterest.com"
+              target="_blank"
+              rel="noopener"
+              class="c21-footer-social-link"
+              >Pinterest</a
+            >
+          </nav>
+        </div>
+        <div class="c21-footer-col">
+          <p class="c21-footer-col-title">Navegação</p>
+          <ul class="c21-footer-list">
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#feminino">Feminino</a></li>
+            <li><a href="#masculino">Masculino</a></li>
+          </ul>
+        </div>
+        <div class="c21-footer-col">
+          <p class="c21-footer-col-title">Categorias</p>
+          <ul class="c21-footer-list">
+            <li><a href="#feminino">Jaquetas</a></li>
+            <li><a href="#feminino">Vestidos</a></li>
+            <li><a href="#masculino">Camisas</a></li>
+            <li><a href="#masculino">Calças</a></li>
+          </ul>
+        </div>
+        <div class="c21-footer-col">
+          <p class="c21-footer-col-title">Contato</p>
+          <ul class="c21-footer-list">
+            <li>
+              <a href="mailto:contato@club21.com.br">contato@club21.com.br</a>
+            </li>
+            <li><span>Seg–Sex, 9h–18h</span></li>
+          </ul>
+        </div>
+        <div class="c21-footer-col c21-footer-col--newsletter">
+          <p class="c21-footer-col-title">Newsletter</p>
+          <p class="c21-footer-nl-desc">Novidades e lançamentos exclusivos.</p>
+          <div class="c21-footer-nl-wrap" id="c21-footer-nl-wrap">
+            <input
+              type="email"
+              id="c21-footer-nl-email"
+              class="c21-footer-nl-input"
+              placeholder="seu@email.com"
+              autocomplete="email"
+            />
+            <button
+              id="c21-footer-nl-btn"
+              class="c21-footer-nl-btn"
+              type="button"
+            >
+              Inscrever
+            </button>
+          </div>
+          <p id="c21-footer-nl-ok" class="c21-footer-nl-ok"></p>
+        </div>
+      </div>
+      <div class="c21-footer-bottom">
+        <p>© 2026 Club 21. Todos os direitos reservados.</p>
+        <p class="c21-footer-bottom-right">Feito com essência.</p>
+      </div>
+    </footer>
+
+    <!-- EmailJS SDK — https://www.emailjs.com/ -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

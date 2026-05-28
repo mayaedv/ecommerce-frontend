@@ -1,0 +1,2951 @@
+/* ================================================
+   CLUB 21 — interactions.css
+   Hover · Seletor de tamanho · Provador virtual
+   Carrinho de compras
+   NÃO altera: header, nav, hero, grade, footer
+   ================================================ */
+
+/* ------------------------------------------------
+   1. CARD — TRANSIÇÕES E ANIMAÇÃO DE ENTRADA
+   ------------------------------------------------ */
+
+.card-produto {
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition:
+    background-color 0.35s ease,
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.65s ease;
+  opacity: 0;
+  transform: translateY(36px);
+}
+
+.card-produto.card-visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-produto.card-visivel:hover,
+.card-produto.touch-ativo {
+  transform: translateY(-8px);
+  box-shadow:
+    0 28px 56px rgba(17, 17, 17, 0.1),
+    0 8px 20px rgba(17, 17, 17, 0.06);
+  background-color: #eee6d4;
+}
+
+/* ------------------------------------------------
+   2. WRAPPER DA IMAGEM
+   ------------------------------------------------ */
+
+.card-imagem-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  height: 450px;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------
+   3. IMAGENS — PRINCIPAL E HOVER
+   ------------------------------------------------ */
+
+.card-imagem-wrapper .card-img-principal,
+.card-imagem-wrapper .card-img-hover {
+  width: 300px;
+  height: 450px;
+  object-fit: contain;
+  display: block;
+}
+
+.card-img-principal {
+  position: relative;
+  z-index: 1;
+  transition:
+    transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.45s ease;
+  transform-origin: center center;
+}
+
+.card-img-hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 2;
+  transform: scale(1.04);
+  transition:
+    opacity 0.45s ease,
+    transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Zoom suave (todos os cards) */
+.card-produto.card-visivel:hover .card-img-principal,
+.card-produto.touch-ativo .card-img-principal {
+  transform: scale(1.05);
+}
+
+/* Fade-swap (somente .tem-hover-img com imagem verificada) */
+.card-produto.tem-hover-img.card-visivel:hover .card-img-principal,
+.card-produto.tem-hover-img.touch-ativo .card-img-principal {
+  opacity: 0;
+  transform: scale(1.03);
+}
+
+.card-produto.tem-hover-img.card-visivel:hover .card-img-hover,
+.card-produto.tem-hover-img.touch-ativo .card-img-hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ------------------------------------------------
+   4. OVERLAY — "EXPERIMENTAR"
+   ------------------------------------------------ */
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 22px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.btn-ver-detalhes {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #111111;
+  background-color: rgba(245, 240, 232, 0.92);
+  border: 1px solid rgba(17, 17, 17, 0.16);
+  padding: 11px 28px;
+  cursor: pointer;
+  outline: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.38s ease,
+    transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color 0.25s ease,
+    color 0.25s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: all;
+  white-space: nowrap;
+}
+
+.card-produto.card-visivel:hover .btn-ver-detalhes,
+.card-produto.touch-ativo .btn-ver-detalhes {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn-ver-detalhes:hover {
+  background-color: #111111;
+  color: #f5f0e8;
+}
+
+/* Brilhinho ✦ ao lado de "Sugestões" */
+.btn-sparkle {
+  display: inline-block;
+  color: #b8976a;
+  font-size: 9px;
+  vertical-align: middle;
+  animation: sparkle-pulsar 2.2s ease-in-out infinite;
+}
+
+.btn-ver-detalhes:hover .btn-sparkle {
+  color: #d4b48a;
+}
+
+@keyframes sparkle-pulsar {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.82);
+  }
+}
+
+/* ------------------------------------------------
+   5. EFEITO DE BRILHO (SWEEP)
+   ------------------------------------------------ */
+
+.card-imagem-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -85%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.16),
+    transparent
+  );
+  transform: skewX(-18deg);
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.card-produto.card-visivel:hover .card-imagem-wrapper::after {
+  animation: c21-sweep 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes c21-sweep {
+  0% {
+    left: -85%;
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    left: 135%;
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------
+   6. SHIMMER DE CARREGAMENTO
+   ------------------------------------------------ */
+
+.card-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(
+    90deg,
+    rgba(245, 240, 232, 0) 0%,
+    rgba(238, 230, 212, 0.9) 50%,
+    rgba(245, 240, 232, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: c21-shimmer 1.6s ease-in-out infinite;
+  transition: opacity 0.5s ease;
+}
+
+.card-shimmer.shimmer-oculto {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes c21-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ------------------------------------------------
+   7. INFO DO CARD
+   ------------------------------------------------ */
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Botão "Adicionar ao carrinho" */
+.btn-adicionar-carrinho {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #111111;
+  background: transparent;
+  border: 1px solid rgba(17, 17, 17, 0.28);
+  padding: 10px 22px;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  max-width: 260px;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.btn-adicionar-carrinho:hover {
+  background-color: #111111;
+  color: #f5f0e8;
+  border-color: #111111;
+}
+
+.btn-adicionar-carrinho.btn-adicionado {
+  background-color: #111111;
+  color: #f5f0e8;
+  border-color: #111111;
+}
+
+/* ------------------------------------------------
+   8. SELETOR DE TAMANHO (no card)
+   ------------------------------------------------ */
+
+.c21-tamanhos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 260px;
+}
+
+.c21-tamanho-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #999999;
+  align-self: flex-start;
+}
+
+.c21-size-btns {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.c21-size-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  width: 34px;
+  height: 26px;
+  background: transparent;
+  border: 1px solid #d4c8b0;
+  cursor: pointer;
+  color: #666666;
+  outline: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.c21-size-btn:hover {
+  border-color: #111111;
+  color: #111111;
+}
+
+.c21-size-btn--ativo {
+  background-color: #111111;
+  color: #f5f0e8;
+  border-color: #111111;
+}
+
+/* Aviso "Selecione um tamanho" */
+.c21-aviso-tamanho {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  color: #b05050;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  height: 13px;
+  margin: 0;
+  align-self: flex-start;
+}
+
+.c21-aviso--visivel {
+  opacity: 1;
+}
+
+/* ------------------------------------------------
+   9. BOTÃO FLUTUANTE DO CARRINHO
+   ------------------------------------------------ */
+
+.c21-btn-carrinho {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 300;
+  width: 56px;
+  height: 56px;
+  background-color: #111111;
+  color: #f5f0e8;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  box-shadow:
+    0 4px 16px rgba(17, 17, 17, 0.28),
+    0 2px 6px rgba(17, 17, 17, 0.18);
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+}
+
+.c21-btn-carrinho:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 28px rgba(17, 17, 17, 0.3);
+}
+
+.c21-btn-carrinho.c21-pulsar {
+  animation: c21-pulsar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes c21-pulsar {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.28);
+  }
+  70% {
+    transform: scale(0.93);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Badge contagem */
+.c21-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background-color: #b8976a;
+  color: #f5f0e8;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* ------------------------------------------------
+   10. OVERLAY DO DRAWER
+   ------------------------------------------------ */
+
+.c21-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(17, 17, 17, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.c21-overlay--visivel {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ------------------------------------------------
+   11. DRAWER DO CARRINHO
+   ------------------------------------------------ */
+
+.c21-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-width: 100vw;
+  height: 100vh;
+  z-index: 500;
+  background-color: #f5f0e8;
+  border-left: 1px solid #d4c8b0;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: -6px 0 40px rgba(17, 17, 17, 0.1);
+}
+
+.c21-drawer--aberto {
+  transform: translateX(0);
+}
+
+.c21-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid #d4c8b0;
+  flex-shrink: 0;
+}
+
+.c21-drawer-titulo {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+.c21-btn-fechar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666666;
+  padding: 4px;
+  display: flex;
+  outline: none;
+  transition: color 0.2s;
+}
+
+.c21-btn-fechar:hover {
+  color: #111111;
+}
+
+.c21-lista {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #d4c8b0 transparent;
+}
+
+.c21-lista::-webkit-scrollbar {
+  width: 4px;
+}
+.c21-lista::-webkit-scrollbar-track {
+  background: transparent;
+}
+.c21-lista::-webkit-scrollbar-thumb {
+  background: #d4c8b0;
+  border-radius: 2px;
+}
+
+.c21-vazio {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  color: #999999;
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 60px 32px;
+}
+
+/* Item do carrinho */
+.c21-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 32px;
+  border-bottom: 1px solid rgba(212, 200, 176, 0.45);
+  position: relative;
+}
+
+.c21-item img {
+  width: 70px;
+  height: 90px;
+  object-fit: contain;
+  background-color: #eee6d4;
+  flex-shrink: 0;
+}
+
+.c21-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 28px;
+}
+
+.c21-item-nome {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #111111;
+  line-height: 1.4;
+}
+
+/* Tamanho selecionado */
+.c21-item-tam {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  color: #888888;
+  letter-spacing: 0.03em;
+}
+
+.c21-item-tam strong {
+  color: #111111;
+  font-weight: 600;
+}
+
+.c21-item-preco {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #111111;
+  margin-top: 2px;
+}
+
+/* Controle de quantidade */
+.c21-item-qtd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.c21-qtd-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #d4c8b0;
+  cursor: pointer;
+  font-size: 15px;
+  color: #111111;
+  outline: none;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  line-height: 1;
+  padding: 0;
+}
+
+.c21-qtd-btn:hover {
+  background-color: #111111;
+  color: #f5f0e8;
+  border-color: #111111;
+}
+
+.c21-item-qtd span {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 18px;
+  text-align: center;
+  color: #111111;
+}
+
+.c21-item-remover {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #bbbbbb;
+  padding: 4px;
+  display: flex;
+  outline: none;
+  transition: color 0.2s;
+}
+
+.c21-item-remover:hover {
+  color: #111111;
+}
+
+/* Rodapé do drawer */
+.c21-drawer-footer {
+  padding: 22px 32px 28px;
+  border-top: 1px solid #d4c8b0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.c21-subtotal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+.c21-subtotal-row strong {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.c21-btn-finalizar {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f5f0e8;
+  background-color: #111111;
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  transition: opacity 0.25s ease;
+}
+
+.c21-btn-finalizar:hover {
+  opacity: 0.82;
+}
+
+/* ================================================
+   12. PROVADOR VIRTUAL
+   ================================================ */
+
+/* Overlay */
+.c21-prov-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 550;
+  background: rgba(17, 17, 17, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.c21-prov-overlay--visivel {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Modal wrapper (centraliza o inner) */
+.c21-provador {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.c21-provador--aberto {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Container interno */
+.c21-prov-inner {
+  display: flex;
+  background-color: #f5f0e8;
+  border: 1px solid #d4c8b0;
+  max-width: 860px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(17, 17, 17, 0.18);
+  transform: scale(0.96) translateY(14px);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.c21-provador--aberto .c21-prov-inner {
+  transform: scale(1) translateY(0);
+}
+
+/* Coluna esquerda: imagem */
+.c21-prov-col-img {
+  flex: 1;
+  min-width: 0;
+  background-color: #eee6d4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  min-height: 480px;
+}
+
+.c21-prov-col-img img {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  max-height: 440px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Coluna direita: informações */
+.c21-prov-col-info {
+  width: 360px;
+  flex-shrink: 0;
+  padding: 36px 36px 28px;
+  overflow-y: auto;
+  border-left: 1px solid #d4c8b0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #d4c8b0 transparent;
+}
+
+.c21-prov-col-info::-webkit-scrollbar {
+  width: 4px;
+}
+.c21-prov-col-info::-webkit-scrollbar-track {
+  background: transparent;
+}
+.c21-prov-col-info::-webkit-scrollbar-thumb {
+  background: #d4c8b0;
+  border-radius: 2px;
+}
+
+/* Botão fechar (canto superior direito) */
+.c21-prov-fechar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666666;
+  padding: 4px;
+  display: flex;
+  outline: none;
+  transition: color 0.2s;
+}
+
+.c21-prov-fechar:hover {
+  color: #111111;
+}
+
+/* Label "Provador Virtual" */
+.c21-prov-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #b8976a;
+  margin-top: 4px;
+}
+
+.c21-prov-nome {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #111111;
+  line-height: 1.3;
+  padding-right: 24px;
+  margin: 0;
+}
+
+.c21-prov-preco {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111111;
+  margin: 0;
+}
+
+/* Seção genérica */
+.c21-prov-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.c21-prov-section-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #999999;
+  margin: 0;
+}
+
+/* Botões de tamanho do provador */
+.c21-prov-sizes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.c21-prov-size-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  width: 38px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #d4c8b0;
+  cursor: pointer;
+  color: #666666;
+  outline: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.04em;
+}
+
+.c21-prov-size-btn:hover {
+  border-color: #111111;
+  color: #111111;
+}
+
+.c21-prov-size-btn--ativo {
+  background-color: #111111;
+  color: #f5f0e8;
+  border-color: #111111;
+}
+
+/* Bloco de medidas */
+.c21-prov-medidas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: opacity 0.3s ease;
+}
+
+.c21-prov-medidas--oculto {
+  display: none;
+}
+
+/* Linha de caimento */
+.c21-prov-fit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.c21-prov-fit-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #999999;
+}
+
+.c21-prov-fit-txt {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #111111;
+  letter-spacing: 0.03em;
+}
+
+/* Barra visual de caimento */
+.c21-barra-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.c21-barra-extremo {
+  font-family: "Poppins", sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #aaaaaa;
+  white-space: nowrap;
+}
+
+.c21-barra-track {
+  flex: 1;
+  height: 3px;
+  background-color: #d4c8b0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.c21-barra-fill {
+  height: 100%;
+  background-color: #111111;
+  border-radius: 2px;
+  width: 0;
+  transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Tabela de medidas */
+.c21-prov-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  color: #666666;
+}
+
+.c21-prov-table th {
+  text-align: left;
+  padding: 6px 6px 6px 0;
+  font-weight: 600;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #aaaaaa;
+  border-bottom: 1px solid #d4c8b0;
+}
+
+.c21-prov-table th:first-child {
+  width: 44px;
+}
+
+.c21-prov-table td {
+  padding: 5px 6px 5px 0;
+  border-bottom: 1px solid rgba(212, 200, 176, 0.35);
+}
+
+/* Linha ativa (tamanho selecionado) */
+.c21-prov-table tr.c21-tr--ativo td {
+  color: #111111;
+  font-weight: 600;
+  background-color: rgba(238, 230, 212, 0.65);
+}
+
+.c21-prov-hint {
+  font-family: "Poppins", sans-serif;
+  font-size: 8px;
+  color: #bbbbbb;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* Botão adicionar no provador */
+.c21-prov-adicionar {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f5f0e8;
+  background-color: #111111;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  transition: opacity 0.25s ease;
+  margin-top: auto;
+}
+
+.c21-prov-adicionar:hover:not(:disabled) {
+  opacity: 0.82;
+}
+
+.c21-prov-adicionar:disabled {
+  background-color: #cccccc;
+  color: #999999;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------
+   13. RESPONSIVO
+   ------------------------------------------------ */
+
+@media (max-width: 1024px) {
+  .card-imagem-wrapper {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 2 / 3;
+  }
+
+  .card-imagem-wrapper .card-img-principal,
+  .card-imagem-wrapper .card-img-hover {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 860px) {
+  /* Provador empilhado em telas menores */
+  .c21-prov-inner {
+    flex-direction: column;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+
+  .c21-prov-col-img {
+    min-height: 260px;
+    padding: 28px 20px;
+  }
+
+  .c21-prov-col-info {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #d4c8b0;
+    padding: 28px 24px 24px;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-ver-detalhes {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    padding: 9px 20px;
+  }
+
+  .btn-adicionar-carrinho {
+    font-size: 9px;
+    padding: 9px 16px;
+  }
+
+  .card-produto {
+    transform: translateY(20px);
+  }
+
+  .c21-drawer {
+    width: 100vw;
+  }
+
+  .c21-btn-carrinho {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .c21-provador {
+    padding: 0;
+  }
+
+  .c21-prov-inner {
+    max-height: 100vh;
+    height: 100vh;
+  }
+}
+
+/* ================================================
+   15. CHECKOUT — ViaCEP + EmailJS
+   ================================================ */
+
+/* Overlay */
+.c21-checkout-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 620;
+  background: rgba(17, 17, 17, 0.52);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.c21-checkout-overlay--visivel {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Modal wrapper */
+.c21-checkout {
+  position: fixed;
+  inset: 0;
+  z-index: 650;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.c21-checkout--aberto {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Container interno */
+.c21-checkout-inner {
+  background-color: #f5f0e8;
+  border: 1px solid #d4c8b0;
+  max-width: 920px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 32px 80px rgba(17, 17, 17, 0.18);
+  transform: scale(0.96) translateY(14px);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.c21-checkout--aberto .c21-checkout-inner {
+  transform: scale(1) translateY(0);
+}
+
+/* Cabeçalho */
+.c21-checkout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 36px;
+  border-bottom: 1px solid #d4c8b0;
+  flex-shrink: 0;
+}
+
+.c21-checkout-titulo {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #111111;
+  margin: 0;
+}
+
+.c21-checkout-fechar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666666;
+  padding: 4px;
+  display: flex;
+  outline: none;
+  transition: color 0.2s;
+}
+
+.c21-checkout-fechar:hover {
+  color: #111111;
+}
+
+/* Corpo: 2 colunas */
+.c21-checkout-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Coluna esquerda — resumo */
+.c21-checkout-resumo {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: #eee6d4;
+  border-right: 1px solid #d4c8b0;
+  padding: 28px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: #d4c8b0 transparent;
+}
+
+.c21-checkout-resumo::-webkit-scrollbar {
+  width: 4px;
+}
+.c21-checkout-resumo::-webkit-scrollbar-track {
+  background: transparent;
+}
+.c21-checkout-resumo::-webkit-scrollbar-thumb {
+  background: #d4c8b0;
+  border-radius: 2px;
+}
+
+.c21-checkout-section-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #999999;
+  margin: 0 0 14px;
+}
+
+/* Item no resumo */
+.c21-checkout-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(212, 200, 176, 0.5);
+  align-items: flex-start;
+}
+
+.c21-checkout-item img {
+  width: 50px;
+  height: 64px;
+  object-fit: contain;
+  background-color: #f5f0e8;
+  flex-shrink: 0;
+}
+
+.c21-checkout-item-detalhe {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.c21-checkout-item-nome {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #111111;
+  line-height: 1.4;
+}
+
+.c21-checkout-item-meta {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  color: #888888;
+}
+
+.c21-checkout-item-preco {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #111111;
+  margin-top: 2px;
+}
+
+/* Total do resumo */
+.c21-checkout-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #d4c8b0;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+.c21-checkout-total-row strong {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+/* Coluna direita — formulário */
+.c21-checkout-form-col {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 36px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: #d4c8b0 transparent;
+}
+
+.c21-checkout-form-col::-webkit-scrollbar {
+  width: 4px;
+}
+.c21-checkout-form-col::-webkit-scrollbar-track {
+  background: transparent;
+}
+.c21-checkout-form-col::-webkit-scrollbar-thumb {
+  background: #d4c8b0;
+  border-radius: 2px;
+}
+
+/* Campos do formulário */
+.c21-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.c21-campo label {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #999999;
+}
+
+.c21-campo input {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #111111;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #d4c8b0;
+  padding: 7px 0;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.c21-campo input:focus {
+  border-color: #111111;
+}
+.c21-campo input::placeholder {
+  color: #cccccc;
+}
+.c21-campo input[readonly] {
+  color: #666666;
+  cursor: default;
+}
+
+/* Wrapper do CEP com status inline */
+.c21-cep-wrapper {
+  position: relative;
+}
+
+.c21-cep-wrapper input {
+  padding-right: 90px;
+}
+
+.c21-cep-status {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  color: #aaaaaa;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.c21-cep-status.cep-ok {
+  color: #4a7c59;
+  font-weight: 600;
+}
+.c21-cep-status.cep-erro {
+  color: #b05050;
+}
+
+/* Linha com 2 campos lado a lado */
+.c21-campo-row {
+  display: flex;
+  gap: 20px;
+}
+
+.c21-campo-row .c21-campo {
+  flex: 1;
+}
+
+.c21-campo--numero {
+  max-width: 90px;
+  flex: none !important;
+}
+.c21-campo--uf {
+  max-width: 56px;
+  flex: none !important;
+}
+
+/* Mensagem de erro do form */
+.c21-form-erro {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  color: #b05050;
+  letter-spacing: 0.03em;
+  min-height: 15px;
+  margin: 0;
+}
+
+/* Botão "Confirmar pedido" */
+.c21-btn-confirmar {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f5f0e8;
+  background-color: #111111;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  transition: opacity 0.25s ease;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.c21-btn-confirmar:hover:not(:disabled) {
+  opacity: 0.82;
+}
+
+.c21-btn-confirmar:disabled {
+  background-color: #cccccc;
+  color: #999999;
+  cursor: not-allowed;
+}
+
+/* Tela de sucesso */
+.c21-sucesso {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 56px 36px;
+  text-align: center;
+}
+
+.c21-sucesso-icone {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background-color: #111111;
+  color: #f5f0e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.c21-sucesso h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #111111;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.c21-sucesso p {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  color: #666666;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  max-width: 300px;
+  margin: 0;
+}
+
+.c21-btn-continuar {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #111111;
+  background: transparent;
+  border: 1px solid rgba(17, 17, 17, 0.28);
+  padding: 12px 32px;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+  margin-top: 8px;
+}
+
+.c21-btn-continuar:hover {
+  background-color: #111111;
+  color: #f5f0e8;
+}
+
+/* Responsivo checkout */
+@media (max-width: 820px) {
+  .c21-checkout-body {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .c21-checkout-resumo {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #d4c8b0;
+    max-height: 200px;
+  }
+
+  .c21-checkout-form-col {
+    padding: 22px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .c21-checkout {
+    padding: 0;
+  }
+  .c21-checkout-inner {
+    max-height: 100vh;
+    height: 100vh;
+  }
+  .c21-checkout-header {
+    padding: 18px 20px;
+  }
+  .c21-checkout-form-col {
+    padding: 18px 20px;
+  }
+}
+
+/* ------------------------------------------------
+   14. TELAS TOUCH — sem mouse hover
+   ------------------------------------------------ */
+
+@media (hover: none) {
+  .btn-ver-detalhes {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+
+  .card-produto.touch-ativo .btn-ver-detalhes {
+    opacity: 1;
+  }
+}
+
+/* ================================================
+   16. POPUP DE BOAS-VINDAS — 15% OFF
+   ================================================ */
+
+/* Overlay */
+.c21-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 690;
+  background: rgba(17, 17, 17, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.c21-popup-overlay--visivel {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Modal */
+.c21-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 700;
+  transform: translate(-50%, -48%) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: 92%;
+  max-width: 460px;
+  background-color: #f5f0e8;
+  border: 1px solid #d4c8b0;
+  box-shadow: 0 40px 90px rgba(17, 17, 17, 0.22);
+  padding: 48px 44px 40px;
+  text-align: center;
+}
+
+.c21-popup--aberto {
+  opacity: 1;
+  pointer-events: all;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Botão fechar (×) */
+.c21-popup-fechar {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  color: #aaaaaa;
+  padding: 4px 8px;
+  outline: none;
+  transition: color 0.2s;
+}
+
+.c21-popup-fechar:hover {
+  color: #111111;
+}
+
+/* Badge "15% OFF" */
+.c21-popup-badge {
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f5f0e8;
+  background-color: #b8976a;
+  padding: 5px 14px;
+  margin-bottom: 20px;
+}
+
+/* Supertítulo (linha fina acima do h2) */
+.c21-popup-supertitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #999999;
+  margin: 0 0 10px;
+}
+
+/* Título principal */
+.c21-popup-titulo {
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.3;
+  margin: 0 0 14px;
+  letter-spacing: 0.01em;
+}
+
+/* Subtexto */
+.c21-popup-subtexto {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.65;
+  margin: 0 0 28px;
+  letter-spacing: 0.02em;
+}
+
+/* Formulário */
+.c21-popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.c21-popup-input {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  color: #111111;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #d4c8b0;
+  padding: 10px 0;
+  outline: none;
+  text-align: center;
+  letter-spacing: 0.03em;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.c21-popup-input:focus {
+  border-color: #111111;
+}
+.c21-popup-input::placeholder {
+  color: #cccccc;
+}
+
+/* Mensagem de erro */
+.c21-popup-erro {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  color: #b05050;
+  letter-spacing: 0.03em;
+  min-height: 15px;
+  margin: 0;
+  text-align: left;
+}
+
+/* Botão primário */
+.c21-popup-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f5f0e8;
+  background-color: #111111;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  transition: opacity 0.25s ease;
+  margin-top: 6px;
+}
+
+.c21-popup-btn:hover {
+  opacity: 0.82;
+}
+
+/* Botão outline (tela de sucesso) */
+.c21-popup-btn--outline {
+  color: #111111;
+  background-color: transparent;
+  border: 1px solid rgba(17, 17, 17, 0.28);
+  margin-top: 20px;
+}
+
+.c21-popup-btn--outline:hover {
+  background-color: #111111;
+  color: #f5f0e8;
+  opacity: 1;
+}
+
+/* "Não, obrigado" */
+.c21-popup-dispensar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  color: #aaaaaa;
+  letter-spacing: 0.06em;
+  padding: 4px 0;
+  outline: none;
+  transition: color 0.2s;
+  display: block;
+  margin: 10px auto 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.c21-popup-dispensar:hover {
+  color: #111111;
+}
+
+/* Ícone de sucesso (✓) */
+.c21-popup-sucesso-icone {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #111111;
+  color: #f5f0e8;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+/* Conteúdo do popup (wrapper interno — centraliza tudo) */
+.c21-popup-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ================================================
+   17. CAIXA DO CUPOM (dentro do popup de sucesso)
+   ================================================ */
+
+.c21-cupom-box {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px dashed #d4c8b0;
+  background-color: #eee6d4;
+  padding: 10px 8px 10px 18px;
+  margin: 4px 0 4px;
+  width: 100%;
+  max-width: 280px;
+  justify-content: space-between;
+}
+
+.c21-cupom-codigo {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: 0.14em;
+  user-select: all;
+}
+
+.c21-btn-copiar {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #111111;
+  background: transparent;
+  border: 1px solid rgba(17, 17, 17, 0.25);
+  padding: 7px 14px;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.c21-btn-copiar:hover {
+  background-color: #111111;
+  color: #f5f0e8;
+}
+
+/* ================================================
+   18. CUPOM NO CHECKOUT — input + botão aplicar
+   ================================================ */
+
+.c21-cupom-input-wrapper {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  border-bottom: 1px solid #d4c8b0;
+  transition: border-color 0.2s;
+}
+
+.c21-cupom-input-wrapper:focus-within {
+  border-color: #111111;
+}
+
+/* Campo de texto reutiliza .c21-campo input mas sem border-bottom própria */
+.c21-cupom-input-wrapper input {
+  flex: 1;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  color: #111111;
+  background: transparent;
+  border: none;
+  padding: 7px 0;
+  outline: none;
+  letter-spacing: 0.08em;
+}
+
+.c21-cupom-input-wrapper input::placeholder {
+  color: #cccccc;
+}
+.c21-cupom-input-wrapper input[readonly] {
+  color: #666666;
+}
+
+.c21-btn-aplicar-cupom {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #111111;
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+  border-left: 1px solid #d4c8b0;
+}
+
+.c21-btn-aplicar-cupom:hover:not(:disabled) {
+  background-color: #111111;
+  color: #f5f0e8;
+}
+
+.c21-btn-aplicar-cupom:disabled {
+  color: #4a7c59;
+  font-weight: 700;
+  cursor: default;
+  border-left-color: transparent;
+}
+
+/* Feedback do cupom */
+.c21-cupom-feedback {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  min-height: 14px;
+  margin: 4px 0 0;
+  color: transparent;
+}
+
+.c21-cupom-feedback--ok {
+  color: #4a7c59;
+  font-weight: 600;
+}
+.c21-cupom-feedback--erro {
+  color: #b05050;
+}
+.c21-cupom-feedback--dica {
+  color: #b8976a;
+  font-style: italic;
+}
+
+/* ================================================
+   19. TOTAIS DO CHECKOUT (subtotal / desconto / total)
+   ================================================ */
+
+.c21-checkout-valores {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #d4c8b0;
+}
+
+.c21-checkout-val-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: #666666;
+}
+
+/* Linha de desconto */
+.c21-checkout-val-row--desconto {
+  color: #4a7c59;
+  font-weight: 500;
+}
+
+.c21-checkout-val-row--desconto em {
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* Valor do desconto */
+.c21-preco-desconto {
+  font-weight: 700;
+  color: #4a7c59;
+  letter-spacing: 0.02em;
+}
+
+/* Linha de total */
+.c21-checkout-val-row--total {
+  color: #111111;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-top: 1px solid rgba(212, 200, 176, 0.6);
+  margin-top: 4px;
+  padding-top: 10px;
+}
+
+.c21-checkout-val-row--total strong {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: #111111;
+}
+
+/* Texto de desconto na tela de sucesso */
+.c21-sucesso-desconto {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a7c59;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* ================================================
+   20. RESPONSIVO — popup
+   ================================================ */
+
+@media (max-width: 520px) {
+  .c21-popup {
+    padding: 40px 28px 32px;
+    max-width: 100%;
+    width: calc(100% - 32px);
+  }
+
+  .c21-popup-titulo {
+    font-size: 19px;
+  }
+
+  .c21-cupom-box {
+    max-width: 100%;
+  }
+}
+
+/* ================================================
+   21. SUGESTÕES DE ESTILO — Provador Virtual
+   ================================================ */
+
+.c21-prov-estilos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 4px;
+}
+
+/* Tags de ocasião */
+.c21-prov-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.c21-prov-tag {
+  font-family: "Poppins", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #b8976a;
+  border: 1px solid #d4c8b0;
+  padding: 4px 10px;
+  background-color: transparent;
+}
+
+/* Lista de dicas de estilo */
+.c21-prov-dicas {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+}
+
+.c21-prov-dicas li {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: #555555;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+
+.c21-prov-dicas li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #b8976a;
+  font-size: 10px;
+  top: 1px;
+}
+
+/* ================================================
+   22. PAINEL "SOBRE" — clique no logo
+   ================================================ */
+
+/* Overlay atrás do painel */
+.c21-sobre-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 185;
+  background: rgba(17, 17, 17, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.c21-sobre-overlay--visivel {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Painel desliza por baixo do header (z-index 200) */
+.c21-sobre {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 195;
+  background-color: #f5f0e8;
+  border-bottom: 1px solid #d4c8b0;
+  padding: 84px 40px 52px;
+  transform: translateY(-100%);
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.c21-sobre--aberto {
+  transform: translateY(0);
+}
+
+/* Layout interno em três colunas */
+.c21-sobre-inner {
+  max-width: 1020px;
+  margin: 0 auto;
+  display: flex;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+.c21-sobre-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Label dourado acima de cada coluna */
+.c21-sobre-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #b8976a;
+  margin: 0;
+}
+
+/* Título grande na primeira coluna */
+.c21-sobre-titulo {
+  font-family: "Poppins", sans-serif;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #111111;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Textos descritivos */
+.c21-sobre-desc,
+.c21-sobre-texto {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #555555;
+  line-height: 1.72;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* Links de redes sociais */
+.c21-sobre-redes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.c21-sobre-rede {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111111;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+
+.c21-sobre-rede::before {
+  content: "↗";
+  font-size: 11px;
+  color: #b8976a;
+  flex-shrink: 0;
+}
+
+.c21-sobre-rede:hover {
+  color: #b8976a;
+}
+
+/* Frete — dica pequena ao lado do label */
+.c21-frete-hint {
+  font-family: "Poppins", sans-serif;
+  font-size: 8px;
+  font-weight: 400;
+  color: #aaaaaa;
+  letter-spacing: 0.02em;
+  font-style: normal;
+  margin-left: 4px;
+}
+
+/* Responsivo — painel sobre */
+@media (max-width: 768px) {
+  .c21-sobre-inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .c21-sobre {
+    padding: 80px 24px 40px;
+    max-height: 86vh;
+    overflow-y: auto;
+  }
+}
+
+/* ================================================
+   23. BUSCA — LUPA NO NAVBAR
+   ================================================ */
+
+/* Wrapper de ações — canto direito do header */
+header {
+  position: relative;
+}
+
+.c21-header-acoes {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  z-index: 201;
+}
+
+/* Botão lupa */
+.c21-search-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #111111;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: opacity 0.2s;
+}
+
+.c21-search-btn:hover {
+  opacity: 0.5;
+}
+.c21-search-btn--ativo {
+  opacity: 0.45;
+}
+
+/* Painel de busca — desliza por baixo do header sticky */
+.c21-busca {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 190;
+  background-color: #f5f0e8;
+  border-bottom: 1px solid #d4c8b0;
+  box-shadow: 0 6px 28px rgba(17, 17, 17, 0.09);
+  transform: translateY(-110%);
+  transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.c21-busca--aberta {
+  transform: translateY(0);
+}
+
+.c21-busca-inner {
+  display: flex;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 72px 40px 18px;
+  gap: 14px;
+}
+
+.c21-busca-icone {
+  color: #aaaaaa;
+  flex-shrink: 0;
+}
+
+.c21-busca-input {
+  flex: 1;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: #111111;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #d4c8b0;
+  padding: 8px 0;
+  outline: none;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s;
+}
+
+.c21-busca-input:focus {
+  border-color: #111111;
+}
+.c21-busca-input::placeholder {
+  color: #cccccc;
+}
+
+.c21-busca-fechar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  color: #aaaaaa;
+  padding: 4px 8px;
+  outline: none;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.c21-busca-fechar:hover {
+  color: #111111;
+}
+
+.c21-busca-resultado {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #999999;
+  text-align: center;
+  padding: 0 40px 16px;
+  margin: 0;
+  min-height: 30px;
+}
+
+@media (max-width: 768px) {
+  .c21-search-btn {
+    right: 20px;
+    top: 50%;
+  }
+  .c21-busca-inner {
+    padding: 68px 20px 16px;
+  }
+  .c21-busca-input {
+    font-size: 15px;
+  }
+  .c21-busca-resultado {
+    padding: 0 20px 14px;
+  }
+}
+
+/* ================================================
+   25. FILTROS — widget inline abaixo do hero
+   ================================================ */
+
+/* Barra que envolve o widget, alinhada à direita */
+.c21-filtro-widget-wrap {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 40px;
+  background-color: #f5f0e8;
+  border-bottom: 1px solid #d4c8b0;
+}
+
+/* Âncora relativa para o dropdown absoluto */
+.c21-filtro-widget {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Botão "Todos" — sempre visível */
+.c21-filtro-trigger {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #111111;
+  background: transparent;
+  border: 1px solid #d4c8b0;
+  padding: 7px 16px;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.2s;
+  white-space: nowrap;
+}
+
+.c21-filtro-trigger:hover {
+  border-color: #111111;
+}
+
+.c21-filtro-trigger--ativo {
+  border-color: #b8976a;
+  color: #b8976a;
+}
+
+.c21-filtro-trigger-arrow {
+  font-size: 9px;
+  display: inline-block;
+  transition: transform 0.22s ease;
+}
+
+.c21-filtro-trigger--aberto .c21-filtro-trigger-arrow {
+  transform: rotate(180deg);
+}
+
+/* Painel dropdown — só aparece ao clicar */
+.c21-filtro-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 150;
+  background-color: #f5f0e8;
+  border: 1px solid #d4c8b0;
+  padding: 20px 24px 18px;
+  min-width: 340px;
+  box-shadow: 0 12px 40px rgba(17, 17, 17, 0.12);
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.c21-filtro-dropdown--aberto {
+  display: flex;
+}
+
+/* Grupos de filtro */
+.c21-filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.c21-filtro-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.c21-filtro-btns {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.c21-filtro-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888888;
+  background: transparent;
+  border: 1px solid #d4c8b0;
+  padding: 5px 11px;
+  cursor: pointer;
+  outline: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.18s,
+    color 0.18s,
+    border-color 0.18s;
+}
+
+.c21-filtro-btn:hover {
+  border-color: #111111;
+  color: #111111;
+}
+.c21-filtro-btn--ativo {
+  background-color: #111111;
+  color: #f5f0e8;
+  border-color: #111111;
+}
+
+.c21-filtro-limpar {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b8976a;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.18s;
+  align-self: flex-start;
+}
+.c21-filtro-limpar:hover {
+  color: #111111;
+}
+
+/* Card oculto pelos filtros */
+.c21-card-oculto {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .c21-header-acoes {
+    right: 20px;
+  }
+  .c21-filtro-widget-wrap {
+    padding: 12px 20px;
+  }
+  .c21-filtro-dropdown {
+    min-width: 280px;
+    right: 0;
+  }
+}
+
+/* ================================================
+   26. FOOTER PROFISSIONAL
+   ================================================ */
+
+.c21-footer {
+  background-color: #111111;
+  color: #f5f0e8;
+}
+
+.c21-footer-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 72px 40px 48px;
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.c21-footer-col {
+  flex: 1;
+  min-width: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c21-footer-col--brand {
+  flex: 1.5;
+  min-width: 180px;
+}
+.c21-footer-col--newsletter {
+  flex: 1.6;
+  min-width: 200px;
+}
+
+.c21-footer-logo {
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #f5f0e8;
+  margin: 0;
+}
+
+.c21-footer-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(245, 240, 232, 0.5);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  margin: 0;
+  max-width: 200px;
+}
+
+.c21-footer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.c21-footer-social-link {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(245, 240, 232, 0.65);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.c21-footer-social-link::before {
+  content: "↗";
+  font-size: 10px;
+  color: #b8976a;
+  flex-shrink: 0;
+}
+
+.c21-footer-social-link:hover {
+  color: #f5f0e8;
+}
+
+.c21-footer-col-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #b8976a;
+  margin: 0;
+}
+
+.c21-footer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.c21-footer-list a,
+.c21-footer-list span {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(245, 240, 232, 0.6);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.c21-footer-list a:hover {
+  color: #f5f0e8;
+}
+
+.c21-footer-nl-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(245, 240, 232, 0.5);
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+.c21-footer-nl-wrap {
+  display: flex;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.22);
+  transition: border-color 0.2s;
+}
+
+.c21-footer-nl-wrap:focus-within {
+  border-color: rgba(245, 240, 232, 0.8);
+}
+
+.c21-footer-nl-input {
+  flex: 1;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  color: #f5f0e8;
+  background: transparent;
+  border: none;
+  padding: 9px 0;
+  outline: none;
+  letter-spacing: 0.03em;
+  min-width: 0;
+}
+
+.c21-footer-nl-input::placeholder {
+  color: rgba(245, 240, 232, 0.28);
+}
+
+.c21-footer-nl-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #111111;
+  background-color: #f5f0e8;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.c21-footer-nl-btn:hover {
+  opacity: 0.82;
+}
+
+.c21-footer-nl-ok {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  color: #4a7c59;
+  letter-spacing: 0.06em;
+  min-height: 16px;
+  margin: 0;
+}
+
+.c21-footer-bottom {
+  border-top: 1px solid rgba(245, 240, 232, 0.1);
+  padding: 20px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.c21-footer-bottom p {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  color: rgba(245, 240, 232, 0.3);
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .c21-footer-main {
+    padding: 48px 24px 32px;
+    gap: 32px;
+  }
+
+  .c21-footer-col {
+    min-width: calc(50% - 16px);
+    flex: none;
+    width: calc(50% - 16px);
+  }
+
+  .c21-footer-col--brand,
+  .c21-footer-col--newsletter {
+    width: 100%;
+    flex: none;
+    min-width: 0;
+  }
+
+  .c21-footer-bottom {
+    padding: 16px 24px;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .c21-footer-col {
+    width: 100%;
+  }
+}
+
+/* ------------------------------------------------
+   27. CHECKOUT — PAGAMENTO
+   ------------------------------------------------ */
+
+/* ------------------------------------------------
+   26. CHECKOUT — PAGAMENTO
+   ------------------------------------------------ */
+
+.c21-pag-metodos {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.c21-pag-btn {
+  flex: 1;
+  padding: 10px 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 1px solid #d4c8b0;
+  color: #555555;
+  cursor: pointer;
+  transition:
+    border-color 0.18s,
+    color 0.18s,
+    background-color 0.18s;
+}
+
+.c21-pag-btn:hover {
+  border-color: #111111;
+  color: #111111;
+}
+
+.c21-pag-btn--ativo {
+  background-color: #111111;
+  border-color: #111111;
+  color: #f5f0e8;
+}
+
+.c21-pag-detalhe {
+  margin-bottom: 8px;
+}
+
+.c21-pag-info {
+  background-color: #f5f0e8;
+  border: 1px solid #d4c8b0;
+  padding: 14px 16px;
+}
+
+.c21-pag-info p {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  color: #555555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.c21-campo--cvv {
+  max-width: 90px;
+}
+
+.c21-obrigatorio {
+  color: #c0392b;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.c21-obrigatorio-nota {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  color: #999999;
+  letter-spacing: 0.04em;
+  margin: 4px 0 10px;
+}
+
+/* Tela de pagamento confirmado */
+.c21-sucesso--pag {
+  animation: c21-fade-in 0.4s ease;
+}
+
+.c21-sucesso-icone--pag {
+  background-color: #2d7a4f;
+}
+
+.c21-pag-metodo-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #2d7a4f;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+@keyframes c21-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
