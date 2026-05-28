@@ -223,6 +223,42 @@ nav {
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Hambúrguer — oculto no desktop */
+.c21-menu-toggle {
+  display: none;
+  position: absolute;
+  left: 20px;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--fg);
+  padding: 6px;
+  outline: none;
+  z-index: 202;
+}
+
+.c21-menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background-color: currentColor;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.c21-menu-toggle.ativo span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.c21-menu-toggle.ativo span:nth-child(2) {
+  opacity: 0;
+}
+.c21-menu-toggle.ativo span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
 @media (max-width: 1024px) {
   .menu {
     gap: 80px;
@@ -236,5 +272,93 @@ nav {
     width: 100%;
     max-width: 420px;
     height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .c21-menu-toggle {
+    display: flex;
+  }
+
+  nav {
+    justify-content: center;
+    padding: 18px 20px;
+  }
+
+  .logo {
+    position: static;
+    font-size: 24px;
+  }
+
+  .menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--border);
+    z-index: 199;
+    padding: 8px 0 16px;
+  }
+
+  .menu.menu--aberto {
+    display: flex;
+  }
+
+  .menu a {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    padding: 14px 24px;
+    display: block;
+    width: 100%;
+  }
+
+  .hero {
+    min-height: 70vh;
+    padding: 60px 24px;
+  }
+
+  .hero-texto h2 {
+    font-size: 48px;
+  }
+
+  .hero-label {
+    font-size: 20px;
+  }
+
+  .secao-produtos {
+    padding: 40px 20px;
+  }
+
+  /* 2 cards por linha */
+  .card-produto {
+    flex: 1 1 calc(50% - 4px);
+    max-width: calc(50% - 4px);
+  }
+}
+
+@media (max-width: 420px) {
+  /* 1 card por linha */
+  .card-produto {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 50vh;
+    padding: 48px 20px;
+  }
+
+  .hero-texto h2 {
+    font-size: 36px;
+  }
+
+  .hero-label {
+    font-size: 16px;
   }
 }

@@ -1947,6 +1947,24 @@ function limparFiltros() {
    FOOTER — Newsletter
    ================================================ */
 
+function iniciarMenuMobile() {
+  var toggle = document.getElementById("c21-menu-toggle");
+  var menu = document.querySelector(".menu");
+  if (!toggle || !menu) return;
+
+  toggle.addEventListener("click", function () {
+    toggle.classList.toggle("ativo");
+    menu.classList.toggle("menu--aberto");
+  });
+
+  menu.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      toggle.classList.remove("ativo");
+      menu.classList.remove("menu--aberto");
+    });
+  });
+}
+
 function iniciarCategoriasFooter() {
   document.querySelectorAll("a[data-filtro]").forEach(function (link) {
     link.addEventListener("click", function (e) {
@@ -2033,6 +2051,7 @@ criarBuscaUI();
 criarFiltrosUI();
 iniciarFooter();
 iniciarCategoriasFooter();
+iniciarMenuMobile();
 iniciarTema();
 iniciarAnimacaoEntrada();
 

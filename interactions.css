@@ -3375,6 +3375,11 @@ body.dark .c21-filtro-btn--ativo {
   border-color: #ede8e0;
 }
 
+/* Menu mobile */
+body.dark .menu {
+  border-bottom-color: #3a3428;
+}
+
 /* Painel Sobre */
 body.dark .c21-sobre {
   background-color: #1a1714;
